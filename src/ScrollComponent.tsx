@@ -6,16 +6,17 @@ type DisplayDataProps<T> = {
   data: T[];
 };
 
-type MyTestProps = {
+type ScrollComponentProps = {
   apiUrl: string;
   pageNumber: string;
   pageLimit: string;
 };
+
 const ScrollComponent = <T extends Object>({
   apiUrl,
   pageNumber,
   pageLimit,
-}: MyTestProps) => {
+}: ScrollComponentProps) => {
   const [data, setData] = useState<T[]>([]);
   const [page, setPage] = useState(1);
   const [limit] = useState(10);

@@ -15,4 +15,4 @@ function App() {
 }
 // another url supporting pagination : https://jsonplaceholder.typicode.com/comments
 
-export default App;
+export default React.memo(App);
