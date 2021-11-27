@@ -5,7 +5,7 @@ import ScrollComponent from './ScrollComponent';
 function App() {
   return (
     <div className="app">
-      <ScrollComponent apiUrl={'https://jsonplaceholder.typicode.com/photos'}/>
+      <ScrollComponent apiUrl={'https://jsonplaceholder.typicode.com/photos'} pageNumber={'_page'} pageLimit={'_limit'}/>
   </div>
   );
 }

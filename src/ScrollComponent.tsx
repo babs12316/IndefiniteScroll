@@ -1,3 +1,4 @@
+import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -7,17 +8,23 @@ type DisplayDataProps<T> = {
 
 type MyTestProps = {
   apiUrl: string;
+  pageNumber: string;
+  pageLimit: string;
 };
-const ScrollComponent = <T extends Object>({ apiUrl }: MyTestProps) => {
+const ScrollComponent = <T extends Object>({
+  apiUrl,
+  pageNumber,
+  pageLimit,
+}: MyTestProps) => {
   const [data, setData] = useState<T[]>([]);
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}?_page=${page}&_limit=${limit * page}`)
+      .get(`${apiUrl}?${pageNumber}=${page}&${pageLimit}=${limit * page}`)
       .then((result) => setData(result.data));
-  }, [page, limit, apiUrl]);
+  }, [page, limit, apiUrl, pageNumber, pageLimit]);
 
   const handleScroll = () => {
     const bottom =
@@ -26,7 +33,6 @@ const ScrollComponent = <T extends Object>({ apiUrl }: MyTestProps) => {
 
     if (bottom) {
       setPage((prevPage) => prevPage + 1);
-      console.log("at the bottom");
     }
   };
 
@@ -37,15 +43,16 @@ const ScrollComponent = <T extends Object>({ apiUrl }: MyTestProps) => {
     };
   }, []);
 
-  return <DisplayData data={data} />;
-};
-
-export default ScrollComponent;
-
-const DisplayData = <T extends object>({ data }: DisplayDataProps<T>) => {
   if (data.length === 0) {
     return null;
   }
+
+  return <DisplayData data={data} />;
+};
+
+export default React.memo(ScrollComponent);
+
+const DisplayData = <T extends object>({ data }: DisplayDataProps<T>) => {
   return (
     <table className="styled-table">
       <thead>
