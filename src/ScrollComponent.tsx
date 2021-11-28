@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-type DisplayDataProps<T> = {
+interface DisplayDataProps<T>{
   data: T[];
 };
 
@@ -12,11 +12,11 @@ type ScrollComponentProps = {
   pageLimit: string;
 };
 
-const ScrollComponent = <T extends Object>({
+const ScrollComponent= <T extends DisplayDataProps<T>>({
   apiUrl,
   pageNumber,
   pageLimit,
-}: ScrollComponentProps) => {
+}: ScrollComponentProps) =>  {
   const [data, setData] = useState<T[]>([]);
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
@@ -53,7 +53,7 @@ const ScrollComponent = <T extends Object>({
 
 export default React.memo(ScrollComponent);
 
-const DisplayData = <T extends object>({ data }: DisplayDataProps<T>) => {
+const  DisplayData = <T extends DisplayDataProps<T>>({ data }: DisplayDataProps<T>) => {
   return (
     <table className="styled-table">
       <thead>
@@ -67,7 +67,7 @@ const DisplayData = <T extends object>({ data }: DisplayDataProps<T>) => {
         {data.map((item: T, index: number) => (
           <tr key={index}>
             {(Object.keys(data[0]) as Array<keyof T>).map((key) => (
-              <td key={key.toString()}>{item[key]}</td>
+              <td key={+key}>{item[key]}</td>
             ))}
           </tr>
         ))}
